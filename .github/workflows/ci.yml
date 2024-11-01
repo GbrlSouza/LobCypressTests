@@ -22,11 +22,11 @@ jobs:
         run: npm run test
 
       - name: List Cypress Folder
-        run: ls -la cypress/videos
-      
+        run: ls -la cypress/videos        
+    
       - name: Upload Cypress Screenshots
         if: failure() 
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4.4.3
         with:
           name: cypress-screenshots
           path: cypress/screenshots
