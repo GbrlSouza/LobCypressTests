@@ -155,3 +155,37 @@ Esse arquivo é um **workflow do GitHub Actions** que automatiza a execução de
 
 ### Resumo
 Esse workflow configura o ambiente, instala as dependências, garante que o Cypress esteja pronto para uso, e executa os testes. Se os testes falharem, ele armazena screenshots e vídeos como artefatos, facilitando a análise do que deu errado. É uma configuração robusta para integrar testes Cypress em um processo de CI/CD.
+
+### Explicando o Workflow YAML
+Aqui está o que acontece em cada etapa:
+
+1. **name: Cypress Tests**: Define o nome do workflow. Este é um identificador simples para o que o workflow faz.
+
+2. **on: push**: O workflow será executado sempre que houver um `push` para o repositório, ou seja, quando houver mudanças no código.
+
+3. **jobs: cypress-run**: Define o trabalho chamado `cypress-run` que será executado em um sistema operacional Ubuntu 22.04.
+
+### Etapas do Workflow
+1. **Checkout**:
+   - Usa a ação `actions/checkout@v4` para baixar o código do repositório no runner (o ambiente que executa o workflow).
+
+2. **Install Dependencies**:
+   - Roda `npm install` para instalar as dependências listadas no `package.json`.
+
+3. **Fix Cypress Permissions**:
+   - Executa `chmod +x ./node_modules/.bin/cypress` para garantir que o Cypress tenha as permissões corretas para ser executado.
+
+4. **Install Cypress**:
+   - Roda `npx cypress install` para baixar e instalar os binários do Cypress.
+
+5. **Run Cypress Tests**:
+   - Executa `npm run test`, que inicia os testes Cypress definidos no `package.json`.
+
+6. **List Cypress Folder**:
+   - Executa `ls -la cypress/videos` para listar os arquivos na pasta de vídeos, garantindo que os arquivos foram gerados corretamente. Isso é útil para depuração, especialmente se você quiser verificar se os arquivos esperados foram criados.
+
+7. **Upload Cypress Screenshots**:
+   - Se os testes falharem, esta etapa faz upload das capturas de tela como artefatos. O `if: failure()` garante que esta etapa só seja executada se houver falhas.
+
+8. **Upload Cypress Videos**:
+   - Faz upload dos vídeos gravados dos testes Cypress como artefatos. Se não houver arquivos, o workflow ignora silenciosamente.
