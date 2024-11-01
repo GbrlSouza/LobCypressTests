@@ -4,8 +4,7 @@
   "description": "Repositório contendo a suíte de testes automatizados com Cypress para o projeto **Lob**.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
