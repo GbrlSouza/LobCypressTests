@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cypress run",
-    "CypressTest": "npm cypress install && cypress run",
-    "build": "npm cypress install"
+    "CypressTest": "npm cypress install && cypress run"
   },
   "author": "",
   "license": "ISC",
