@@ -1,28 +1,33 @@
-name: End-to-end tests
+name: Cypress Tests
+
 on: push
+
 jobs:
   cypress-run:
-    runs-on: ubunto-22.04
-
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      # Install npm dependencies, cache them corretly
+        uses: actions/checkout@v4
+
+      # Install npm dependencies, cache them correctly
       # and run all Cypress tests
+      - name: Install and Start
+        run: npm install && npm start
 
       - name: Cypress run
-        uses: cypress-io/github-action@v5
-        # after the test run completes stores videos and any screenhots
+        uses: cypress-io/github-action@v6
 
-      - uses: actions/upload-artifact@v3
-        # add the line below to store screenshots only on failures
-        # if: failure()
-
+      # Store videos and screenshots after test run completes
+      - name: Upload Cypress Screenshots
+        uses: actions/upload-artifact@v3
+        if: failure() # Store screenshots only on failures
         with:
-          name: cypress-screenhots
-          path: cypress/screenhots
+          name: cypress-screenshots
+          path: cypress/screenshots
           if-no-files-found: ignore
-      - uses: actions/upload-artifact@v3
+
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v3
         with:
           name: cypress-videos
           path: cypress/videos
