@@ -13,6 +13,6 @@ jobs:
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          install: npm install cypress
+          install: npm install cypress --save-dev
           build: npm run build
           start: npm start
