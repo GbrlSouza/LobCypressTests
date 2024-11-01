@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "cypress run",
+    "CypressTest": "cypress run", 
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "build": "CypressTest"
