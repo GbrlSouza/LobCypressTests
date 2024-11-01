@@ -12,6 +12,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Fix Cypress Permissions
+        run: chmod +x ./node_modules/.bin/cypress
+
       - name: Install Cypress
         run: npx cypress install
 
@@ -19,7 +22,7 @@ jobs:
         run: npm run test
 
       - name: Upload Cypress Screenshots
-        if: failure()
+        if: failure() 
         uses: actions/upload-artifact@v3
         with:
           name: cypress-screenshots
