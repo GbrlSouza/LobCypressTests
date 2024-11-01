@@ -4,7 +4,11 @@
   "description": "Repositório contendo a suíte de testes automatizados com Cypress para o projeto **Lob**.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "build": "CypressTest",
+    "test": "cypress run"
   },
   "author": "",
   "license": "ISC",
