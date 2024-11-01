@@ -87,3 +87,71 @@ Este projeto é licenciado sob a [MIT License](LICENSE).
 ---
 
 Sinta-se à vontade para contribuir ou abrir issues caso encontre algum problema ou tenha sugestões de melhoria!
+
+## Saiba Mais
+
+Esse arquivo é um **workflow do GitHub Actions** que automatiza a execução de testes com o **Cypress** sempre que houver um *push* (envio de código) para o repositório. Vou explicar cada parte em detalhes:
+
+### Estrutura do Workflow
+- **Nome do Workflow: `Cypress Tests`**
+  - Nome que aparece no GitHub para identificar o que o workflow faz.
+
+### Quando Executar o Workflow
+- **on: push**
+  - Significa que o workflow será acionado automaticamente quando houver um *push* no repositório. Pode ser configurado para outros eventos, mas aqui ele está configurado para mudanças no código.
+
+---
+
+### Definição do Trabalho (Job)
+- **jobs: cypress-run**
+  - Define um trabalho chamado `cypress-run`, que será executado em uma máquina Ubuntu.
+
+### Ambiente de Execução
+- **runs-on: ubuntu-22.04**
+  - Especifica que o trabalho será executado em um ambiente Linux (Ubuntu 22.04). É uma das opções mais comuns para CI/CD porque é rápida e amplamente compatível.
+
+---
+
+### Passos do Workflow
+1. **Checkout do Código**
+   - **name: Checkout**
+   - **uses: actions/checkout@v4**
+   - Este passo usa a ação oficial `actions/checkout` para clonar o código do repositório. É necessário para que o código esteja disponível no ambiente de execução.
+
+2. **Instalar Dependências**
+   - **name: Install Dependencies**
+   - **run: npm install**
+   - Executa `npm install` para baixar todas as dependências listadas no `package.json` do projeto. Isso garante que o Cypress e qualquer outra biblioteca estejam instalados antes de rodar os testes.
+
+3. **Corrigir Permissões do Cypress**
+   - **name: Fix Cypress Permissions**
+   - **run: chmod +x ./node_modules/.bin/cypress**
+   - Altera as permissões do binário do Cypress para que ele seja executável. Isso é feito com o comando `chmod +x`, que pode ser necessário em ambientes Linux.
+
+4. **Instalar Cypress**
+   - **name: Install Cypress**
+   - **run: npx cypress install**
+   - Usa `npx` para instalar o binário do Cypress. Isso garante que o Cypress esteja configurado corretamente e pronto para rodar os testes.
+
+5. **Executar Testes Cypress**
+   - **name: Run Cypress Tests**
+   - **run: npm run test**
+   - Executa o comando `npm run test`, que deve estar configurado no `package.json` para rodar os testes Cypress. Aqui, espera-se que o Cypress inicie e execute todos os testes definidos.
+
+6. **Upload de Screenshots do Cypress**
+   - **name: Upload Cypress Screenshots**
+   - **if: failure()**
+   - **uses: actions/upload-artifact@v3**
+   - Esse passo faz o upload das capturas de tela (screenshots) geradas pelo Cypress, mas **somente se os testes falharem**. A condição `if: failure()` garante que os screenshots sejam salvos apenas em caso de falha, ajudando a depurar problemas.
+   - **with**: Define o nome do artefato (`cypress-screenshots`) e o caminho para encontrar os screenshots (`cypress/screenshots`). Se nenhum arquivo for encontrado, ele ignora.
+
+7. **Upload de Vídeos do Cypress**
+   - **name: Upload Cypress Videos**
+   - **uses: actions/upload-artifact@v3**
+   - Sem a condição de falha, este passo faz o upload dos vídeos gerados pelo Cypress, independentemente de os testes passarem ou falharem.
+   - **with**: Define o nome do artefato (`cypress-videos`) e o caminho para encontrar os vídeos (`cypress/videos`). Também ignora se não houver arquivos.
+
+---
+
+### Resumo
+Esse workflow configura o ambiente, instala as dependências, garante que o Cypress esteja pronto para uso, e executa os testes. Se os testes falharem, ele armazena screenshots e vídeos como artefatos, facilitando a análise do que deu errado. É uma configuração robusta para integrar testes Cypress em um processo de CI/CD.
