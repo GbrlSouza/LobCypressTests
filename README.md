@@ -1,6 +1,6 @@
 # LobCypressTests
 
-Repositório contendo a suíte de testes automatizados com Cypress para o projeto **Lob**.
+Repositório contendo a suíte de testes automatizados com Cypress de o projeto **Lob** ou **Dev**.
 
 ## Visão Geral
 
