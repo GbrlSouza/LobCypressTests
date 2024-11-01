@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "cypress run",
-    "CypressTest": "npx cypress install && cypress run"
-
+    "CypressTest": "npx cypress install && cypress run",
+    "build": "npx cypress install"
   },
   "author": "",
   "license": "ISC",
