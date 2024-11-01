@@ -9,19 +9,18 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Install and Start
-        run: npm install && npm run test
+      - name: Install Dependencies
+        run: npm install
 
+      - name: Set Cypress Permissions
+        run: chmod +x ./node_modules/.bin/cypress
 
-      - name: Cypress run
-        uses: cypress-io/github-action@v6
+      - name: Run Cypress Tests
+        run: npm run test
 
-      # Store videos and screenshots after test run completes
       - name: Upload Cypress Screenshots
+        if: failure()
         uses: actions/upload-artifact@v3
-        if: failure() # Store screenshots only on failures
         with:
           name: cypress-screenshots
           path: cypress/screenshots
